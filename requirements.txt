@@ -1,2 +1,2 @@
-gwcomm
+gwcomm-genwch
 requests
