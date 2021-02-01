@@ -14,7 +14,7 @@ setuptools.setup(
     version=f"{curver}",
     author="genwch",
     author_email="",
-    description="A small example package",
+    description="api functions package",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=f"https://github.com/genwch/{pkgname}",
