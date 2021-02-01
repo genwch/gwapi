@@ -10,11 +10,17 @@ def get(url):
     from .auth import get_header
     conf = comm.sysconf
     dataurl = conf.get("api", {}).get("data", "") if conf.get("api", {}).get(
-        "data", "") == "" else "{}://{}.{}{}".format(conf.get("API_HTTP", ""), conf.get("API_HOST", ""), conf.get("API_PORT", ""), conf.get("API_DATA", ""))
+        "data", "") != "" else "{}://{}:{}{}".format(conf.get("api_http", "http"), conf.get("api_host", "127.0.0.1"), conf.get("api_port", "5000"), conf.get("api_data", "/"))
     url = "{}{}".format(dataurl, url)
     header = get_header(conf.get("token", None))
     lg.info(f"init - url: {url}")
-    res = requests.get(url, headers=header)
+    try:
+        res = requests.get(url, headers=header)
+    except:
+        lg.error(f"Error - connection fail - {url}")
+        comm.sysconf["token"] = None
+        return {}
+
     if res.status_code != 200:
         lg.error(f"Error - {res.json()}")
         comm.sysconf["token"] = None
@@ -27,11 +33,16 @@ def upsert(url, data):
     from .auth import get_header
     conf = comm.sysconf
     dataurl = conf.get("api", {}).get("data", "") if conf.get("api", {}).get(
-        "data", "") == "" else "{}://{}.{}{}".format(conf.get("API_HTTP", ""), conf.get("API_HOST", ""), conf.get("API_PORT", ""), conf.get("API_DATA", ""))
+        "data", "") != "" else "{}://{}:{}{}".format(conf.get("api_http", "http"), conf.get("api_host", "127.0.0.1"), conf.get("api_port", "5000"), conf.get("api_data", "/"))
     url = "{}{}".format(dataurl, url)
     header = get_header(conf.get("token", None))
     lg.info(f"init - url: {url}")
-    res = requests.post(url, json=data, headers=header)
+    try:
+        res = requests.post(url, json=data, headers=header)
+    except:
+        lg.error(f"Error - connection fail - {url}")
+        comm.sysconf["token"] = None
+        return False
     if res.status_code != 200:
         lg.error(f"Error - {res.json()}")
         comm.sysconf["token"] = None

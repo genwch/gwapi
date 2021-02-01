@@ -16,17 +16,17 @@ PY_API_USR=[apiuser]
 PY_API_PWD=[apipwd]
 ```
 
-- Setup as ./conf/sysconf.json
+- Setup as ./conf/system.json
   - Replace **[]** with your value
 
 ```
 {
-    "API_HTTP": "[https|http]",
-    "API_HOST": "[apihost]",
-    "API_PORT": "[443|80]",
-    "API_DATA": "[/api/v1/data]",
-    "API_USR": "[apiuser]",
-    "API_PWD": "[apipwd]"
+    "api_http": "[https|http]",
+    "api_host": "[apihost]",
+    "api_port": "[443|80]",
+    "api_data": "[/api/v1/data]",
+    "api_usr": "[apiuser]",
+    "api_pwd": "[apipwd]"
 }
 ```
 

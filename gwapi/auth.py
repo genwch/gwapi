@@ -9,11 +9,16 @@ def get_token():
     import requests
     conf = comm.sysconf
     url = conf.get("api", {}).get("auth", "") if conf.get("api", {}).get(
-        "auth", "") == "" else "{}://{}.{}/auth".format(conf.get("API_HTTP", ""), conf.get("API_HOST", ""), conf.get("API_PORT", ""))
-    body = {"usr_cde": conf.get("API_USR", ""),
-            "password": conf.get("API_USR", "")}
+        "auth", "") != "" else "{}://{}:{}/auth".format(conf.get("api_http", "http"), conf.get("api_host", "127.0.0.1"), conf.get("api_port", "5000"))
+    body = {"usr_cde": conf.get("api_usr", ""),
+            "password": conf.get("api_pwd", "")}
     lg.info(f"init - url: {url}")
-    res = requests.post(url, json=body)
+    try:
+        res = requests.post(url, json=body)
+    except:
+        lg.error(f"Error - connection fail - {url}")
+        comm.sysconf["token"] = None
+        return None
     if res.status_code != 200:
         lg.error(f"Error - {res.msg}")
         comm.sysconf["token"] = None
